@@ -2,7 +2,11 @@
 
 <PageTitle>Index</PageTitle>
 
+
+
 @code {
+    private List<Advert> adverts;
+
     protected override async Task OnInitializedAsync()
     {
         using (var httpClient = new HttpClient())
@@ -11,7 +15,13 @@
 
             try
             {
-                var response = await httpClient.GetStringAsync(httpClient.BaseAddress);
+                var response = await httpClient.GetAsync(httpClient.BaseAddress);
+                if (response.IsSuccessStatusCode)
+                {
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    var searchResultRoot = await JsonSerializer.DeserializeAsync<Root>(responseStream);
+                    adverts = searchResultRoot.adverts;
+                }
             }
             catch (Exception ex)
             {
