@@ -5,6 +5,18 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(1000);
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri("https://catalog-ads.wildberries.ru/api/v6/search?keyword=футболка");
+
+            try
+            {
+                var response = await httpClient.GetStringAsync(httpClient.BaseAddress);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
     }
 }
