@@ -2,31 +2,46 @@
 
 public class Advert
 {
-    public string code { get; set; }
-    public int advertId { get; set; }
-    public int id { get; set; }
-    public int cpm { get; set; }
-    public int subject { get; set; }
+    [JsonPropertyName("code")]
+    public string Code { get; set; }
+    [JsonPropertyName("advertId")]
+    public int AdvertId { get; set; }
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+    [JsonPropertyName("cpm")]
+    public int Cpm { get; set; }
+    [JsonPropertyName("subject")]
+    public int Subject { get; set; }
 }
 
 public class Page
 {
-    public List<int> positions { get; set; }
-    public int page { get; set; }
-    public int count { get; set; }
+    [JsonPropertyName("positions")]
+    public List<int> Positions { get; set; }
+    [JsonPropertyName("page")]
+    public int CurrentPage { get; set; }
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
 }
 
 public class Root
 {
-    public List<Page> pages { get; set; }
-    public List<int> prioritySubjects { get; set; }
-    public List<Advert> adverts { get; set; }
-    public int minCPM { get; set; }
-    public SortWeights sortWeights { get; set; }
+    [JsonPropertyName("pages")]
+    public List<Page> Pages { get; set; }
+    [JsonPropertyName("prioritySubjects")]
+    public List<int> PrioritySubjects { get; set; }
+    [JsonPropertyName("adverts")]
+    public List<Advert> Adverts { get; set; }
+    [JsonPropertyName("minCPM")]
+    public int MinCPM { get; set; }
+    [JsonPropertyName("sortWeights")]
+    public SortWeights SortWeights { get; set; }
 }
 
 public class SortWeights
 {
-    public int cpm { get; set; }
-    public int delivery { get; set; }
+    [JsonPropertyName("cpm")]
+    public int Cpm { get; set; }
+    [JsonPropertyName("delivery")]
+    public int Delivery { get; set; }
 }

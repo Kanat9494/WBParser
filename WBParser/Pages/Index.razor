@@ -1,17 +1,34 @@
-﻿@page "/"
+﻿@using MudBlazor
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
+<MudTextField @bind-Value="searchText" Label="Поиск" Variant="Variant.Outlined"></MudTextField>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" @onclick="Search">Найти</MudButton>
 
+<div class="mt-2">
+    @for (int i = 0; i < adverts.Count; i++)
+    {
+        <p>@adverts[i].Id</p>
+    }
+</div>
 
 @code {
     private List<Advert> adverts;
+    public string searchText;
 
     protected override async Task OnInitializedAsync()
     {
+        adverts = new List<Advert>();
+    }
+
+    private async Task Search()
+    {
+        if (string.IsNullOrEmpty(searchText))
+            return;
         using (var httpClient = new HttpClient())
         {
-            httpClient.BaseAddress = new Uri("https://catalog-ads.wildberries.ru/api/v6/search?keyword=футболка");
+            httpClient.BaseAddress = new Uri($"https://catalog-ads.wildberries.ru/api/v6/search?keyword={searchText}");
 
             try
             {
@@ -20,7 +37,7 @@
                 {
                     using var responseStream = await response.Content.ReadAsStreamAsync();
                     var searchResultRoot = await JsonSerializer.DeserializeAsync<Root>(responseStream);
-                    adverts = searchResultRoot.adverts;
+                    adverts = searchResultRoot.Adverts;
                 }
             }
             catch (Exception ex)
